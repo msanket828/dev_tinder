@@ -4,3 +4,5 @@
 - install express, nodemon
 - create a server, listen on port
 - write the request handler for /test, /hello
+
+- Order of the route matters
