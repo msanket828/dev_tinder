@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
+const { default: isURL } = require("validator/lib/isURL");
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -14,6 +16,11 @@ const userSchema = new mongoose.Schema(
       unique: true,
       required: true,
       trim: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Invalid email address", value);
+        }
+      },
     },
     password: {
       type: String,
@@ -46,6 +53,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default:
         "https://pinnacle.works/wp-content/uploads/2022/06/dummy-image-300x298.jpg",
+      validate(value) {
+        if (!isURL(value)) {
+          throw new Error("Invalid photoUrl");
+        }
+      },
     },
     about: {
       type: String,
