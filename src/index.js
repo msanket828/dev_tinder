@@ -67,10 +67,25 @@ app.delete("/user", async (req, res) => {
 });
 
 // update user (patch)
-app.patch("/user", async (req, res) => {
-  const userId = req.body.userId;
+app.patch("/user/:userid", async (req, res) => {
+  const userId = req.params?.userid;
   const data = req.body;
   try {
+    const validUpdates = [
+      "firstName",
+      "lastName",
+      "password",
+      "gender",
+      "skills",
+      "photoUrl",
+      "about",
+    ];
+    const isValidUpdate = Object.keys(data).every((k) =>
+      validUpdates.includes(k)
+    );
+    if (!isValidUpdate) {
+      throw new Error("Some fileds are not allowed to update");
+    }
     // const user = await User.findByIdAndUpdate({ _id: userId }, data);
     const user = await User.findByIdAndUpdate(userId, data, {
       runValidators: true,

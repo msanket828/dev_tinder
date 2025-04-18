@@ -26,3 +26,4 @@
 - to work we need to add options like optios.runvalidators
 - add schema validation with property like trim, lowercase, min, maxLength, required, unique, validate function
 - add timestamp: true to check the creation and updation date/time of document.
+- app api level validtions on put and patch request
