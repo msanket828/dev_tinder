@@ -9,6 +9,8 @@
 - mutliple route handlers
 - next fn
 
+// all about db and api
+
 - install mongoose
 - create db connection
 - create user schema
@@ -28,3 +30,11 @@
 - add timestamp: true to check the creation and updation date/time of document.
 - app api level validtions on put and patch request
 - for schema level validation use validator npm package.
+
+// password encryption
+
+- install bcrypt
+- validate signup data
+- hash password and save to db
+- create login api
+- compare password and check email exist or not and throw invalid creds error
