@@ -38,3 +38,17 @@
 - hash password and save to db
 - create login api
 - compare password and check email exist or not and throw invalid creds error
+
+// jwt
+
+- install cookie parser and jwt
+- send dummy cookie to user on login
+- create profile and check can you get the cookie back
+- jwt logic (In login api after email and password validation create a JWT token and send it to user)
+- read the cookie inside your profile API and find the logged in user
+
+// auth middleware
+
+- auth middleware : read the token from req cookie | valiate the token | find the user
+- add the userAuth middleware in profile api
+- set expiry to jwt token and for cookie as well

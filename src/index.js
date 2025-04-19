@@ -5,8 +5,12 @@ const connectDB = require("./config/db");
 const User = require("./model/user");
 const { validateSignupData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const { userAuth } = require("./middleware/auth");
 
 app.use(express.json());
+app.use(cookieParser());
 
 // get profile details with the email
 
@@ -61,12 +65,26 @@ app.post("/login", async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
     console.log("isPasswordValid", isPasswordValid);
     if (isPasswordValid) {
+      const token = await jwt.sign({ _id: user.id }, "S@nk3t@1994", {
+        expiresIn: "1h",
+      });
+      res.cookie("token", token);
       res.send("login successfully");
     } else {
       throw new Error("Invalid credentials");
     }
   } catch (error) {
     res.status(400).send(`Error in login: ${error.message}`);
+  }
+});
+
+// profile
+app.get("/profile", userAuth, async (req, res) => {
+  try {
+    const user = req.user;
+    res.send(user);
+  } catch (error) {
+    res.status(400).send(`Error: ${error.message}`);
   }
 });
 
