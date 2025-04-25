@@ -52,3 +52,4 @@
 - auth middleware : read the token from req cookie | valiate the token | find the user
 - add the userAuth middleware in profile api
 - set expiry to jwt token and for cookie as well
+- create user schema methods for getJWT() and comparePassword
