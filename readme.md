@@ -53,3 +53,13 @@
 - add the userAuth middleware in profile api
 - set expiry to jwt token and for cookie as well
 - create user schema methods for getJWT() and comparePassword
+
+// hmwk
+
+- have to explore doc for express.router
+- create routes folder for each route (auth,profile,request)
+- import these routers in app.js
+- create post /logout api
+- create patch /profile/password api to update passsword
+- create profile edit api /profile/edit
+- validate the fields for edit profile
