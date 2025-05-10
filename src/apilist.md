@@ -27,7 +27,7 @@ connectionRequestRouter
 userRouter
 
 - GET /user/connections
-- GET /user/requests
+- GET /user/requests/received
 - GET /user/feed
 
 Status: ignore (pass), interested (like), accepted, rejected

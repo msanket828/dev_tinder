@@ -71,3 +71,8 @@
 - send connection request
 - mongodb index
 - read article about compound index
+
+- write code with proper validation for POST/request/review/:status/:requestId
+- Though process - POST vs GET
+- Read about ref and populate
+- Create GET /user/requests/received with all checks
