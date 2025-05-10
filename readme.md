@@ -63,3 +63,11 @@
 - create patch /profile/password api to update passsword
 - create profile edit api /profile/edit
 - validate the fields for edit profile
+
+- created connection request schema
+- proper validation of data
+- schema pre functions
+- find out and handle corner cases
+- send connection request
+- mongodb index
+- read article about compound index
