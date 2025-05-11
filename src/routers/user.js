@@ -1,6 +1,7 @@
 const express = require("express");
 const { userAuth } = require("../middleware/auth");
 const ConnectionRequest = require("../model/connectionRequest");
+const User = require("../model/user");
 const userRouter = express.Router();
 
 const USER_DATA = ["firstName", "lastName", "age", "gender", "about"];
@@ -54,4 +55,37 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
   }
 });
 
+userRouter.get("/user/feed", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+
+    const connectionRequests = await ConnectionRequest.find({
+      $or: [{ fromUserId: loggedInUser._id }, { toUserId: loggedInUser._id }],
+    }).select("fromUserId toUserId");
+
+    const hideUsersFromFeed = new Set();
+    connectionRequests.forEach((req) => {
+      hideUsersFromFeed.add(req.fromUserId.toString());
+      hideUsersFromFeed.add(req.toUserId.toString());
+    });
+
+    const users = await User.find({
+      $and: [
+        {
+          _id: { $nin: Array.from(hideUsersFromFeed) },
+        },
+        {
+          _id: { $ne: loggedInUser._id },
+        },
+      ],
+    });
+
+    res.send({
+      records: users.length,
+      data: users,
+    });
+  } catch (error) {
+    res.status(400).send(`Error in feed api... ${error.message}`);
+  }
+});
 module.exports = userRouter;

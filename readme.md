@@ -76,3 +76,7 @@
 - Though process - POST vs GET
 - Read about ref and populate
 - Create GET /user/requests/received with all checks
+- create get GET /user/connections
+
+- Logic for GET /feed API
+- Explore the $nin, $ne, $and, $or and other queries
