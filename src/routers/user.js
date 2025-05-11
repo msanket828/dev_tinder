@@ -3,6 +3,8 @@ const { userAuth } = require("../middleware/auth");
 const ConnectionRequest = require("../model/connectionRequest");
 const userRouter = express.Router();
 
+const USER_DATA = ["firstName", "lastName", "age", "gender", "about"];
+
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
@@ -10,13 +12,7 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
     const connectionRequests = await ConnectionRequest.find({
       toUserId: loggedInUser._id,
       status: "interested",
-    }).populate("fromUserId", [
-      "firstName",
-      "lastName",
-      "age",
-      "gender",
-      "about",
-    ]);
+    }).populate("fromUserId", USER_DATA);
     console.log(connectionRequests);
     res.json({
       message: "Data fetched successfully",
@@ -26,6 +22,35 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
     res
       .status(400)
       .send(`Error in user request received call... ${error.message}`);
+  }
+});
+
+userRouter.get("/user/connections", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+
+    const connectionRequests = await ConnectionRequest.find({
+      $or: [
+        { fromUserId: loggedInUser._id, status: "accepted" },
+        { toUserId: loggedInUser._id, status: "accepted" },
+      ],
+    })
+      .populate("fromUserId", USER_DATA)
+      .populate("toUserId", USER_DATA);
+    if (!connectionRequests) {
+      return res
+        .status(400)
+        .send({ message: "No connection requestions found" });
+    }
+    const data = connectionRequests.map((row) => {
+      if (row.fromUserId._id.toString() === loggedInUser._id.toString) {
+        return row.toUserId;
+      }
+      return row.fromUserId;
+    });
+    res.send({ data });
+  } catch (error) {
+    res.status(400).send(`Error in user connection: ${error.message}`);
   }
 });
 
