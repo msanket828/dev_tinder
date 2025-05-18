@@ -96,4 +96,5 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
     res.status(400).send(`Error in feed api... ${error.message}`);
   }
 });
+
 module.exports = userRouter;
